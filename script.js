@@ -1,51 +1,52 @@
-const productos = [
-  { id: 1, nombre: "Silla Moderna", categoria: "Sillas", precio: 45000, imagen: "https://via.placeholder.com/300x200" },
-  { id: 2, nombre: "Mesa Minimalista", categoria: "Mesas", precio: 60000, imagen: "https://via.placeholder.com/300x200" },
-  { id: 3, nombre: "Sofá Clásico", categoria: "Sofás", precio: 80000, imagen: "https://via.placeholder.com/300x200" },
-  { id: 4, nombre: "Silla Elegante", categoria: "Sillas", precio: 30000, imagen: "https://via.placeholder.com/300x200" },
-  { id: 5, nombre: "Mesa de Comedor", categoria: "Mesas", precio: 70000, imagen: "https://via.placeholder.com/300x200" },
-  { id: 6, nombre: "Sofá Esquinero", categoria: "Sofás", precio: 100000, imagen: "https://via.placeholder.com/300x200" },
-  { id: 7, nombre: "Silla Vintage", categoria: "Sillas", precio: 20000, imagen: "https://via.placeholder.com/300x200" },
-  { id: 8, nombre: "Mesa Redonda", categoria: "Mesas", precio: 55000, imagen: "https://via.placeholder.com/300x200" },
-];
 
-const contenedor = document.getElementById("productos");
-const cartCount = document.getElementById("cart-count");
-let carrito = [];
+document.addEventListener("DOMContentLoaded", () => {
+  const botonesAgregar = document.querySelectorAll(".add-to-cart");
+  const modal = document.getElementById("cart-modal");
+  const contenidoCarrito = document.getElementById("cart-items");
+  const abrirCarrito = document.getElementById("cart-button");
+  const cerrarCarrito = document.getElementById("close-cart");
 
-function renderProductos() {
-  const search = document.getElementById("search").value.toLowerCase();
-  const categoria = document.getElementById("filter-category").value;
-  const precioFiltro = document.getElementById("filter-price").value;
+  let carrito = [];
 
-  contenedor.innerHTML = "";
-  productos.filter(p => {
-    return (
-      (!search || p.nombre.toLowerCase().includes(search)) &&
-      (!categoria || p.categoria === categoria) &&
-      (!precioFiltro || (precioFiltro === "low" ? p.precio < 50000 : p.precio >= 50000))
-    );
-  }).forEach(p => {
-    const card = document.createElement("div");
-    card.className = "bg-white rounded shadow p-4 text-center";
-    card.innerHTML = `
-      <img src="${p.imagen}" alt="${p.nombre}" class="w-full h-40 object-cover mb-2 rounded">
-      <h3 class="text-lg font-bold">${p.nombre}</h3>
-      <p class="text-gray-600 mb-2">$${p.precio.toLocaleString()}</p>
-      <button onclick="agregarAlCarrito(${p.id})" class="bg-black text-white px-4 py-2 rounded">Agregar al carrito</button>
-    `;
-    contenedor.appendChild(card);
+  botonesAgregar.forEach(boton => {
+    boton.addEventListener("click", () => {
+      const nombre = boton.getAttribute("data-name");
+      const precio = parseFloat(boton.getAttribute("data-price"));
+
+      const productoExistente = carrito.find(p => p.nombre === nombre);
+      if (productoExistente) {
+        productoExistente.cantidad++;
+      } else {
+        carrito.push({ nombre, precio, cantidad: 1 });
+      }
+
+      actualizarCarrito();
+    });
   });
-}
 
-function agregarAlCarrito(id) {
-  carrito.push(productos.find(p => p.id === id));
-  cartCount.textContent = carrito.length;
-  console.log("Carrito:", carrito);
-}
+  function actualizarCarrito() {
+    contenidoCarrito.innerHTML = "";
+    let total = 0;
 
-document.getElementById("search").addEventListener("input", renderProductos);
-document.getElementById("filter-category").addEventListener("change", renderProductos);
-document.getElementById("filter-price").addEventListener("change", renderProductos);
+    carrito.forEach(p => {
+      const div = document.createElement("div");
+      div.className = "mb-2 border-b pb-2";
+      div.innerHTML = `<strong>${p.nombre}</strong><br>Cantidad: ${p.cantidad}<br>Precio: $${p.precio * p.cantidad}`;
+      contenidoCarrito.appendChild(div);
+      total += p.precio * p.cantidad;
+    });
 
-renderProductos();
+    const totalDiv = document.createElement("div");
+    totalDiv.className = "mt-4 font-bold";
+    totalDiv.innerText = `Total: $${total}`;
+    contenidoCarrito.appendChild(totalDiv);
+  }
+
+  abrirCarrito.addEventListener("click", () => {
+    modal.classList.remove("hidden");
+  });
+
+  cerrarCarrito.addEventListener("click", () => {
+    modal.classList.add("hidden");
+  });
+});

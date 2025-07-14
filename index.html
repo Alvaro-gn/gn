@@ -17,11 +17,9 @@
   </button>
 
   <!-- Encabezado con logo -->
-  <header class="relative h-64 md:h-80 w-full overflow-hidden mb-10">
+  <header class="relative h-[400px] md:h-[500px] w-full overflow-hidden mb-10">
     <img src="logo.jpg" alt="GN_amoblamientos" class="w-full h-full object-cover object-center opacity-70">
-    <div class="absolute inset-0 flex items-center justify-center">
-      <h1 class="text-4xl md:text-6xl font-bold text-white drop-shadow-lg">GN_amoblamientos</h1>
-    </div>
+    
   </header>
 
   <!-- Buscador y filtros -->
@@ -44,11 +42,60 @@
 
   <!-- Productos -->
   <section id="productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 max-w-6xl mx-auto mb-16">
-    <!-- Productos generados dinámicamente -->
+    
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/300x200?text=Silla+Moderna" class="w-full h-40 object-cover mb-2">
+      <h3 class="font-bold">Silla Moderna</h3>
+      <p>$30.000</p>
+      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Silla Moderna" data-price="30000">Agregar al carrito</button>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/300x200?text=Mesa+Ratona" class="w-full h-40 object-cover mb-2">
+      <h3 class="font-bold">Mesa Ratona</h3>
+      <p>$45.000</p>
+      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Mesa Ratona" data-price="45000">Agregar al carrito</button>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/300x200?text=Sofá+3+Cuerpos" class="w-full h-40 object-cover mb-2">
+      <h3 class="font-bold">Sofá 3 Cuerpos</h3>
+      <p>$120.000</p>
+      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Sofá 3 Cuerpos" data-price="120000">Agregar al carrito</button>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/300x200?text=Estantería+Madera" class="w-full h-40 object-cover mb-2">
+      <h3 class="font-bold">Estantería Madera</h3>
+      <p>$60.000</p>
+      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Estantería Madera" data-price="60000">Agregar al carrito</button>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/300x200?text=Comoda+4+Cajones" class="w-full h-40 object-cover mb-2">
+      <h3 class="font-bold">Cómoda 4 Cajones</h3>
+      <p>$55.000</p>
+      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Cómoda 4 Cajones" data-price="55000">Agregar al carrito</button>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/300x200?text=Banco+de+Madera" class="w-full h-40 object-cover mb-2">
+      <h3 class="font-bold">Banco de Madera</h3>
+      <p>$25.000</p>
+      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Banco de Madera" data-price="25000">Agregar al carrito</button>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/300x200?text=Escritorio+Compacto" class="w-full h-40 object-cover mb-2">
+      <h3 class="font-bold">Escritorio Compacto</h3>
+      <p>$50.000</p>
+      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Escritorio Compacto" data-price="50000">Agregar al carrito</button>
+    </div>
+    <div class="bg-white p-4 rounded shadow">
+      <img src="https://via.placeholder.com/300x200?text=Biblioteca+Alta" class="w-full h-40 object-cover mb-2">
+      <h3 class="font-bold">Biblioteca Alta</h3>
+      <p>$70.000</p>
+      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Biblioteca Alta" data-price="70000">Agregar al carrito</button>
+    </div>
+
   </section>
 
   <!-- Sección de contacto moderna -->
-  <footer class="bg-white border-t py-8 px-4">
+  <footer class="bg-white border-t py-4 px-4 text-center text-sm text-gray-700">
     <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
       <div>
         <h2 class="text-xl font-bold mb-2">Contacto</h2>
