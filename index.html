@@ -6,47 +6,84 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GN_amoblamientos</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .carrito-icono {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background-color: #111;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: bold;
+      z-index: 50;
+    }
+    .whatsapp-bubble {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: #25d366;
+      color: white;
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      font-weight: bold;
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .whatsapp-bubble img {
+      width: 20px;
+      height: 20px;
+    }
+  </style>
 </head>
 <body class="bg-gray-100 text-gray-800">
-  <!-- Encabezado con logo -->
-  <header class="relative bg-white shadow-lg h-56 flex items-center justify-center overflow-hidden">
-    <img src="logo.png" alt="Logo GN_amoblamientos" class="object-contain h-full w-auto" />
-    <!-- Carrito -->
-    <a href="carrito.html" class="absolute top-4 right-4 bg-black text-white px-4 py-2 rounded-full flex items-center">
-      🛒 <span id="cart-count" class="ml-2">0</span>
-    </a>
-  </header>
 
-  <!-- Buscador y Filtros -->
-  <section class="max-w-4xl mx-auto p-4">
-    <input id="search" type="text" placeholder="Buscar productos..." class="w-full p-2 border rounded mb-4" />
-    <div class="flex gap-4">
-      <select id="filter-category" class="p-2 border rounded w-1/2">
-        <option value="">Todas las categorías</option>
-        <option value="Sillas">Sillas</option>
-        <option value="Mesas">Mesas</option>
-        <option value="Escritorios">Escritorios</option>
-      </select>
-      <select id="filter-price" class="p-2 border rounded w-1/2">
-        <option value="">Todos los precios</option>
-        <option value="low">Menor a $50.000</option>
-        <option value="high">Mayor a $50.000</option>
-      </select>
-    </div>
-  </section>
+  <a href="#" class="carrito-icono" onclick="toggleCarrito()">🛒 <span id="cart-count">0</span></a>
 
-  <!-- Productos -->
-  <section id="productos" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4 max-w-6xl mx-auto mb-12">
-    <!-- JS Render -->
-  </section>
-
-  <!-- WhatsApp Flotante -->
-  <a href="https://wa.me/5492615524525" target="_blank" class="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-full shadow-lg flex items-center z-50">
-    <img src="whatsapp.png" alt="WhatsApp" class="w-5 h-5 mr-2" /> WhatsApp
+  <a href="https://wa.me/5492615524525" class="whatsapp-bubble" target="_blank">
+    <img src="https://cdn-icons-png.flaticon.com/512/124/124034.png" alt="WhatsApp" />
+    WhatsApp
   </a>
 
+  <header class="bg-white shadow-lg">
+    <img src="logo.jpg" class="w-full object-cover h-48" alt="GN_amoblamientos Logo" />
+  </header>
+
+  <section class="max-w-4xl mx-auto px-4 my-6">
+    <input id="search" type="text" placeholder="Buscar productos..." class="w-full p-2 border rounded" />
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 mb-6 flex flex-col md:flex-row gap-4">
+    <select id="filter-category" class="p-2 border rounded w-full md:w-1/2">
+      <option value="">Todas las categorías</option>
+      <option value="Sillas">Sillas</option>
+      <option value="Mesas">Mesas</option>
+      <option value="Escritorios">Escritorios</option>
+    </select>
+    <select id="filter-price" class="p-2 border rounded w-full md:w-1/2">
+      <option value="">Todos los precios</option>
+      <option value="low">Menor a $50.000</option>
+      <option value="high">Mayor a $50.000</option>
+    </select>
+  </section>
+
+  <section id="productos" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 px-4 max-w-6xl mx-auto mb-12"></section>
+
+  <!-- Modal del carrito -->
+  <div id="modal-carrito" class="hidden fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg p-6 w-full max-w-md relative">
+      <button onclick="toggleCarrito()" class="absolute top-2 right-4 text-xl">✖</button>
+      <h2 class="text-2xl font-bold mb-4">Tu carrito</h2>
+      <ul id="lista-carrito" class="mb-4 space-y-2"></ul>
+      <button onclick="finalizarCompra()" class="bg-black text-white px-4 py-2 rounded w-full">Finalizar compra</button>
+    </div>
+  </div>
+
   <!-- Contacto -->
-  <footer class="bg-white py-10 mt-16 text-center text-sm text-gray-700">
+  <footer class="bg-white py-8 px-4 mt-12 border-t text-center">
+    <h2 class="text-xl font-semibold mb-4">Contacto</h2>
     <p>Email: gustavo_nieto17@hotmail.com</p>
     <p>Instagram: @gn_amoblamientos</p>
     <p>Teléfono: +54 9 261 552-4525</p>
@@ -60,13 +97,14 @@
       { id: 4, nombre: "Silla Clásica", categoria: "Sillas", precio: 30000, imagen: "https://via.placeholder.com/300" },
       { id: 5, nombre: "Mesa de Comedor", categoria: "Mesas", precio: 70000, imagen: "https://via.placeholder.com/300" },
       { id: 6, nombre: "Escritorio Compacto", categoria: "Escritorios", precio: 40000, imagen: "https://via.placeholder.com/300" },
-      { id: 7, nombre: "Silla Gamer", categoria: "Sillas", precio: 55000, imagen: "https://via.placeholder.com/300" },
-      { id: 8, nombre: "Mesa Ratona", categoria: "Mesas", precio: 35000, imagen: "https://via.placeholder.com/300" }
+      { id: 7, nombre: "Silla Ejecutiva", categoria: "Sillas", precio: 55000, imagen: "https://via.placeholder.com/300" },
+      { id: 8, nombre: "Mesa Ratona", categoria: "Mesas", precio: 35000, imagen: "https://via.placeholder.com/300" },
     ];
+
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
 
     const contenedor = document.getElementById("productos");
     const cartCount = document.getElementById("cart-count");
-    let carrito = [];
 
     function renderProductos() {
       contenedor.innerHTML = "";
@@ -75,9 +113,11 @@
       const precioFiltro = document.getElementById("filter-price").value;
 
       productos.filter(p => {
-        return (!search || p.nombre.toLowerCase().includes(search)) &&
-               (!categoria || p.categoria === categoria) &&
-               (!precioFiltro || (precioFiltro === "low" ? p.precio < 50000 : p.precio >= 50000));
+        return (
+          (!search || p.nombre.toLowerCase().includes(search)) &&
+          (!categoria || p.categoria === categoria) &&
+          (!precioFiltro || (precioFiltro === "low" ? p.precio < 50000 : p.precio >= 50000))
+        );
       }).forEach(p => {
         const card = document.createElement("div");
         card.className = "bg-white rounded-lg shadow p-4 flex flex-col items-center";
@@ -85,7 +125,7 @@
           <img src="${p.imagen}" class="w-full h-48 object-cover mb-4 rounded" />
           <h3 class="text-xl font-semibold mb-2">${p.nombre}</h3>
           <p class="mb-2 text-gray-600">$${p.precio.toLocaleString()}</p>
-          <button class="bg-black text-white px-4 py-2 rounded" onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
+          <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800" onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
         `;
         contenedor.appendChild(card);
       });
@@ -93,8 +133,44 @@
 
     function agregarAlCarrito(id) {
       carrito.push(id);
-      cartCount.textContent = carrito.length;
       localStorage.setItem("carrito", JSON.stringify(carrito));
+      actualizarCarrito();
+    }
+
+    function eliminarProducto(index) {
+      carrito.splice(index, 1);
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      actualizarCarrito();
+    }
+
+    function toggleCarrito() {
+      document.getElementById("modal-carrito").classList.toggle("hidden");
+      actualizarCarrito();
+    }
+
+    function actualizarCarrito() {
+      const lista = document.getElementById("lista-carrito");
+      lista.innerHTML = "";
+      cartCount.textContent = carrito.length;
+
+      carrito.forEach((id, index) => {
+        const p = productos.find(prod => prod.id === id);
+        const li = document.createElement("li");
+        li.className = "flex justify-between items-center";
+        li.innerHTML = `
+          <span>${p.nombre} - $${p.precio.toLocaleString()}</span>
+          <button class="text-red-500" onclick="eliminarProducto(${index})">Eliminar</button>
+        `;
+        lista.appendChild(li);
+      });
+    }
+
+    function finalizarCompra() {
+      alert("Gracias por tu compra. Nos pondremos en contacto.");
+      carrito = [];
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      toggleCarrito();
+      actualizarCarrito();
     }
 
     document.getElementById("search").addEventListener("input", renderProductos);
@@ -102,6 +178,7 @@
     document.getElementById("filter-price").addEventListener("change", renderProductos);
 
     renderProductos();
+    actualizarCarrito();
   </script>
 </body>
 </html>
