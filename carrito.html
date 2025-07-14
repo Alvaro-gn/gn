@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carrito - GN_amoblamientos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+  <header class="bg-gray-900 text-white text-center py-6 mb-4">
+    <h1 class="text-3xl font-bold">Carrito de compras</h1>
+  </header>
+  <main class="max-w-4xl mx-auto px-4">
+    <p class="text-lg">Aquí verás los productos que agregaste al carrito.</p>
+  </main>
+
+<script>
+  const productos = JSON.parse(localStorage.getItem('productos')) || [];
+
+  function renderCarrito() {
+    const contenedor = document.getElementById("contenedor-carrito");
+    contenedor.innerHTML = "";
+
+    const resumen = {};
+
+    productos.forEach(id => {
+      resumen[id] = (resumen[id] || 0) + 1;
+    });
+
+    if (productos.length === 0) {
+      contenedor.innerHTML = "<p class='text-gray-600'>Tu carrito está vacío.</p>";
+      return;
+    }
+
+    Object.entries(resumen).forEach(([id, cantidad]) => {
+      const p = catalogo.find(prod => prod.id == id);
+      const item = document.createElement("div");
+      item.className = "flex justify-between items-center border-b py-2";
+      item.innerHTML = `
+        <div>
+          <h3 class="font-semibold">${p.nombre}</h3>
+          <p class="text-gray-600">Precio: $${p.precio.toLocaleString()}</p>
+          <p class="text-sm">Cantidad: ${cantidad}</p>
+        </div>
+        <button onclick="eliminarProducto(${id})" class="text-red-600 hover:underline">Eliminar</button>
+      `;
+      contenedor.appendChild(item);
+    });
+  }
+
+  function eliminarProducto(id) {
+    const productos = JSON.parse(localStorage.getItem('productos')) || [];
+    const index = productos.indexOf(id);
+    if (index > -1) {
+      productos.splice(index, 1);
+      localStorage.setItem('productos', JSON.stringify(productos));
+      renderCarrito();
+    }
+  }
+
+  const catalogo = [
+    { id: 1, nombre: "Silla Moderna", precio: 45000 },
+    { id: 2, nombre: "Mesa Minimalista", precio: 60000 },
+    { id: 3, nombre: "Escritorio Pro", precio: 80000 },
+    { id: 4, nombre: "Silla Clásica", precio: 30000 },
+    { id: 5, nombre: "Mesa de Comedor", precio: 70000 },
+    { id: 6, nombre: "Escritorio Compacto", precio: 40000 }
+  ];
+
+  renderCarrito();
+</script>
+
+</body>
+</html>
