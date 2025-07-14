@@ -1,117 +1,41 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GN_amoblamientos</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="bg-white text-gray-900">
-  <header class="bg-white shadow p-4 flex justify-between items-center">
-    <img src="logo.png" alt="Logo GN_amoblamientos" class="h-20 object-contain" />
-    <a href="carrito.html" class="relative">
-      🛒 <span id="cart-count" class="bg-black text-white px-2 rounded-full text-sm absolute -top-2 -right-3">0</span>
-    </a>
+<body>
+  <header>
+    <img src="logo.png" alt="Logo GN_amoblamientos" class="logo" />
+    <div class="cart-icon" onclick="toggleCart()">🛒<span id="cart-count">0</span></div>
   </header>
 
-  <main class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-  </main>
+  <section class="search-bar">
+    <input type="text" placeholder="Buscar productos..." id="searchInput" />
+  </section>
 
-  <script>
-    const productos = [
-      { id: 1, nombre: "Silla Moderna", categoria: "Sillas", precio: 45000, imagen: "https://via.placeholder.com/300" },
-      { id: 2, nombre: "Mesa Minimalista", categoria: "Mesas", precio: 60000, imagen: "https://via.placeholder.com/300" },
-      { id: 3, nombre: "Escritorio Pro", categoria: "Escritorios", precio: 80000, imagen: "https://via.placeholder.com/300" },
-      { id: 4, nombre: "Silla Clásica", categoria: "Sillas", precio: 30000, imagen: "https://via.placeholder.com/300" },
-      { id: 5, nombre: "Mesa de Comedor", categoria: "Mesas", precio: 70000, imagen: "https://via.placeholder.com/300" },
-      { id: 6, nombre: "Escritorio Compacto", categoria: "Escritorios", precio: 40000, imagen: "https://via.placeholder.com/300" },
-      { id: 7, nombre: "Sillón Premium", categoria: "Sillones", precio: 95000, imagen: "https://via.placeholder.com/300" },
-      { id: 8, nombre: "Silla Nórdica", categoria: "Sillas", precio: 35000, imagen: "https://via.placeholder.com/300" }
-    ];
+  <main id="product-list"></main>
 
-    const main = document.querySelector("main");
-    productos.forEach(p => {
-      const card = document.createElement("div");
-      card.className = "bg-gray-100 rounded-lg shadow p-4 flex flex-col items-center text-center";
-      card.innerHTML = `
-        <img src="${p.imagen}" alt="${p.nombre}" class="w-full h-40 object-cover rounded" />
-        <h3 class="text-xl font-semibold mt-2">${p.nombre}</h3>
-        <p class="text-gray-700">$${p.precio.toLocaleString()}</p>
-        <button onclick="agregarAlCarrito(${p.id})" class="mt-2 bg-black text-white px-4 py-1 rounded">Agregar al carrito</button>
-      `;
-      main.appendChild(card);
-    });
-
-    function agregarAlCarrito(id) {
-      const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-      carrito.push(id);
-      localStorage.setItem("carrito", JSON.stringify(carrito));
-      actualizarContador();
-    }
-
-    function actualizarContador() {
-      const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
-      document.getElementById("cart-count").textContent = carrito.length;
-    }
-
-    actualizarContador();
-  </script>
-</body>
-</html>
-
-<!-- Carrito -->
-<section class="max-w-xl mx-auto my-10 bg-white p-6 rounded-lg shadow">
-  <h2 class="text-xl font-bold mb-4">Carrito</h2>
-  <div id="items-carrito" class="mb-4"></div>
-  <div class="flex justify-between items-center">
-    <strong>Total:</strong> $<span id="total-carrito">0</span>
+  <div id="cart" class="cart-modal hidden">
+    <h2>Carrito</h2>
+    <div id="cart-items"></div>
+    <button onclick="checkout()">Finalizar compra</button>
   </div>
-  <button onclick="finalizarCompra()" class="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800">Finalizar compra</button>
-</section>
 
-<script>
-  let carrito = [];
-
-  function agregarAlCarrito(nombre, precio) {
-    carrito.push({ nombre, precio });
-    actualizarCarrito();
-  }
-
-  function eliminarDelCarrito(index) {
-    carrito.splice(index, 1);
-    actualizarCarrito();
-  }
-
-  function finalizarCompra() {
-    if (carrito.length === 0) {
-      alert("El carrito está vacío.");
-      return;
-    }
-    alert("Gracias por tu compra. Nos pondremos en contacto.");
-    carrito = [];
-    actualizarCarrito();
-  }
-
-  function actualizarCarrito() {
-    const contenedor = document.getElementById("items-carrito");
-    const totalSpan = document.getElementById("total-carrito");
-    contenedor.innerHTML = "";
-    let total = 0;
-    carrito.forEach((item, index) => {
-      total += item.precio;
-      contenedor.innerHTML += `<div class="flex justify-between items-center mb-2">
-        <span>${item.nombre} - $${item.precio}</span>
-        <button onclick="eliminarDelCarrito(${index})" class="text-red-500 hover:underline">Eliminar</button>
-      </div>`;
-    });
-    totalSpan.textContent = total;
-  }
-</script>
-
-  <a href="https://wa.me/5492615524525" target="_blank" class="whatsapp-float">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="h-6 w-6" />
-    WhatsApp
+  <a href="https://wa.me/5492615524525" class="whatsapp-float" target="_blank">
+    <img src="whatsapp.png" alt="WhatsApp"> WhatsApp
   </a>
+
+  <footer>
+    <div class="contact">
+      <p><strong>Email:</strong> gustavo_nieto17@hotmail.com</p>
+      <p><strong>Instagram:</strong> @gn_amoblamientos</p>
+      <p><strong>Teléfono:</strong> +54 9 261 552-4525</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
