@@ -6,31 +6,128 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>GN_amoblamientos</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .whatsapp-floating {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      z-index: 50;
+      background-color: #25D366;
+      color: white;
+      padding: 0.75rem 1.25rem;
+      border-radius: 9999px;
+      display: flex;
+      align-items: center;
+      font-weight: bold;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      text-decoration: none;
+    }
+    .whatsapp-floating img {
+      width: 24px;
+      height: 24px;
+      margin-right: 0.5rem;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 text-gray-800">
+
+  <!-- Carrito flotante -->
+  <a href="carrito.html" class="fixed top-4 right-4 bg-black text-white px-4 py-2 rounded-full z-50">🛒 <span id="cart-count">0</span></a>
+
   <!-- Encabezado con logo -->
-  <header class="relative h-60 overflow-hidden">
-    <img src="logo.jpg" alt="Logo GN_amoblamientos" class="object-cover w-full h-full" />
-    <a href="carrito.html" class="absolute top-4 right-4 bg-black text-white px-4 py-2 rounded-full">🛒 <span id="cart-count">0</span></a>
+  <header class="w-full relative h-72 bg-cover bg-center" style="background-image: url('logo.jpg');">
   </header>
 
-  <!-- Catálogo (Ejemplo de producto) -->
-  <section class="p-6 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-    <div class="bg-white p-4 shadow rounded text-center">
-      <img src="https://via.placeholder.com/300" class="w-full h-48 object-cover mb-2 rounded" />
-      <h3 class="text-lg font-bold">Sillón Doble Moderno</h3>
-      <p class="text-gray-700 mb-2">$60.000</p>
-      <button onclick="agregarAlCarrito()" class="bg-black text-white px-4 py-2 rounded">Agregar al carrito</button>
+  <!-- Buscador y filtros -->
+  <section class="max-w-5xl mx-auto px-4 mt-6 mb-10">
+    <div class="mb-4">
+      <input id="search" type="text" placeholder="Buscar productos..." class="w-full p-3 border rounded" />
+    </div>
+    <div class="flex flex-col md:flex-row gap-4">
+      <select id="filter-category" class="p-2 border rounded w-full md:w-1/2">
+        <option value="">Todas las categorías</option>
+        <option value="Sillas">Sillas</option>
+        <option value="Mesas">Mesas</option>
+        <option value="Escritorios">Escritorios</option>
+      </select>
+      <select id="filter-price" class="p-2 border rounded w-full md:w-1/2">
+        <option value="">Todos los precios</option>
+        <option value="low">Menor a $50.000</option>
+        <option value="high">Mayor a $50.000</option>
+      </select>
     </div>
   </section>
 
+  <!-- Productos -->
+  <section id="productos" class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 px-4 max-w-6xl mx-auto mb-16"></section>
+
+  <!-- Contacto moderno -->
+  <footer class="bg-white py-6 border-t">
+    <div class="max-w-4xl mx-auto text-center space-y-4">
+      <h2 class="text-xl font-bold">Contacto</h2>
+      <p>📧 <a href="mailto:gustavo_nieto17@hotmail.com" class="text-blue-600 hover:underline">gustavo_nieto17@hotmail.com</a></p>
+      <p>📞 <a href="tel:+5492615524525" class="text-blue-600 hover:underline">+54 9 261 552-4525</a></p>
+      <p>📷 <a href="https://www.instagram.com/gn_amoblamientos" target="_blank" class="text-blue-600 hover:underline">@gn_amoblamientos</a></p>
+    </div>
+  </footer>
+
+  <!-- Nube de WhatsApp -->
+  <a class="whatsapp-floating" href="https://wa.me/5492615524525" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
+    WhatsApp
+  </a>
+
   <script>
+    const productos = [
+      { id: 1, nombre: "Silla Moderna", categoria: "Sillas", precio: 45000, imagen: "https://via.placeholder.com/300" },
+      { id: 2, nombre: "Mesa Minimalista", categoria: "Mesas", precio: 60000, imagen: "https://via.placeholder.com/300" },
+      { id: 3, nombre: "Escritorio Pro", categoria: "Escritorios", precio: 80000, imagen: "https://via.placeholder.com/300" },
+      { id: 4, nombre: "Silla Clásica", categoria: "Sillas", precio: 30000, imagen: "https://via.placeholder.com/300" },
+      { id: 5, nombre: "Mesa de Comedor", categoria: "Mesas", precio: 70000, imagen: "https://via.placeholder.com/300" },
+      { id: 6, nombre: "Escritorio Compacto", categoria: "Escritorios", precio: 40000, imagen: "https://via.placeholder.com/300" },
+      { id: 7, nombre: "Banco Alto", categoria: "Sillas", precio: 25000, imagen: "https://via.placeholder.com/300" },
+      { id: 8, nombre: "Mesa Ratona", categoria: "Mesas", precio: 35000, imagen: "https://via.placeholder.com/300" },
+    ];
+
+    const contenedor = document.getElementById("productos");
+    const cartCount = document.getElementById("cart-count");
     let carrito = [];
-    function agregarAlCarrito() {
-      carrito.push("producto");
-      document.getElementById("cart-count").textContent = carrito.length;
+
+    function renderProductos() {
+      contenedor.innerHTML = "";
+      const search = document.getElementById("search").value.toLowerCase();
+      const categoria = document.getElementById("filter-category").value;
+      const precioFiltro = document.getElementById("filter-price").value;
+
+      productos.filter(p => {
+        return (
+          (!search || p.nombre.toLowerCase().includes(search)) &&
+          (!categoria || p.categoria === categoria) &&
+          (!precioFiltro || (precioFiltro === "low" ? p.precio < 50000 : p.precio >= 50000))
+        );
+      }).forEach(p => {
+        const card = document.createElement("div");
+        card.className = "bg-white rounded-lg shadow p-4 flex flex-col items-center";
+        card.innerHTML = `
+          <img src="${p.imagen}" class="w-full h-48 object-cover mb-4 rounded" />
+          <h3 class="text-xl font-semibold mb-2">${p.nombre}</h3>
+          <p class="mb-2 text-gray-600">$${p.precio.toLocaleString()}</p>
+          <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800" onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
+        `;
+        contenedor.appendChild(card);
+      });
     }
+
+    function agregarAlCarrito(id) {
+      carrito.push(id);
+      cartCount.textContent = carrito.length;
+    }
+
+    document.getElementById("search").addEventListener("input", renderProductos);
+    document.getElementById("filter-category").addEventListener("change", renderProductos);
+    document.getElementById("filter-price").addEventListener("change", renderProductos);
+
+    renderProductos();
   </script>
 </body>
 </html>
-    
