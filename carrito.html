@@ -3,73 +3,70 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Carrito - GN_amoblamientos</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Carrito</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
-  <header class="bg-gray-900 text-white text-center py-6 mb-4">
-    <h1 class="text-3xl font-bold">Carrito de compras</h1>
-  </header>
-  <main class="max-w-4xl mx-auto px-4">
-    <p class="text-lg">Aquí verás los productos que agregaste al carrito.</p>
-  </main>
+<body class="bg-gray-100 text-gray-900 p-4">
+  <h1 class="text-3xl font-bold mb-6 text-center">Tu carrito</h1>
+  <div id="carrito-container" class="max-w-3xl mx-auto space-y-4"></div>
+  <div class="max-w-3xl mx-auto text-right mt-6">
+    <button onclick="vaciarCarrito()" class="bg-red-600 text-white px-4 py-2 rounded">Vaciar carrito</button>
+  </div>
 
-<script>
-  const productos = JSON.parse(localStorage.getItem('productos')) || [];
+  <script>
+    const productos = [
+      { id: 1, nombre: "Silla Moderna", precio: 45000, imagen: "https://via.placeholder.com/300" },
+      { id: 2, nombre: "Mesa Minimalista", precio: 60000, imagen: "https://via.placeholder.com/300" },
+      { id: 3, nombre: "Escritorio Pro", precio: 80000, imagen: "https://via.placeholder.com/300" },
+      { id: 4, nombre: "Silla Clásica", precio: 30000, imagen: "https://via.placeholder.com/300" },
+      { id: 5, nombre: "Mesa de Comedor", precio: 70000, imagen: "https://via.placeholder.com/300" },
+      { id: 6, nombre: "Escritorio Compacto", precio: 40000, imagen: "https://via.placeholder.com/300" },
+      { id: 7, nombre: "Sillón Premium", precio: 95000, imagen: "https://via.placeholder.com/300" },
+      { id: 8, nombre: "Silla Nórdica", precio: 35000, imagen: "https://via.placeholder.com/300" }
+    ];
 
-  function renderCarrito() {
-    const contenedor = document.getElementById("contenedor-carrito");
-    contenedor.innerHTML = "";
+    function mostrarCarrito() {
+      const carritoIds = JSON.parse(localStorage.getItem("carrito")) || [];
+      const carritoContainer = document.getElementById("carrito-container");
 
-    const resumen = {};
+      if (carritoIds.length === 0) {
+        carritoContainer.innerHTML = "<p class='text-center'>Tu carrito está vacío.</p>";
+        return;
+      }
 
-    productos.forEach(id => {
-      resumen[id] = (resumen[id] || 0) + 1;
-    });
+      let total = 0;
+      carritoContainer.innerHTML = "";
 
-    if (productos.length === 0) {
-      contenedor.innerHTML = "<p class='text-gray-600'>Tu carrito está vacío.</p>";
-      return;
+      carritoIds.forEach(id => {
+        const producto = productos.find(p => p.id === id);
+        if (producto) {
+          total += producto.precio;
+          const item = document.createElement("div");
+          item.className = "bg-white p-4 shadow rounded flex items-center gap-4";
+          item.innerHTML = `
+            <img src="${producto.imagen}" alt="${producto.nombre}" class="w-24 h-24 object-cover rounded" />
+            <div>
+              <h3 class="text-xl font-semibold">${producto.nombre}</h3>
+              <p class="text-gray-700">$${producto.precio.toLocaleString()}</p>
+            </div>
+          `;
+          carritoContainer.appendChild(item);
+        }
+      });
+
+      const totalElemento = document.createElement("div");
+      totalElemento.className = "text-xl font-bold text-right mt-4";
+      totalElemento.textContent = `Total: $${total.toLocaleString()}`;
+      carritoContainer.appendChild(totalElemento);
     }
 
-    Object.entries(resumen).forEach(([id, cantidad]) => {
-      const p = catalogo.find(prod => prod.id == id);
-      const item = document.createElement("div");
-      item.className = "flex justify-between items-center border-b py-2";
-      item.innerHTML = `
-        <div>
-          <h3 class="font-semibold">${p.nombre}</h3>
-          <p class="text-gray-600">Precio: $${p.precio.toLocaleString()}</p>
-          <p class="text-sm">Cantidad: ${cantidad}</p>
-        </div>
-        <button onclick="eliminarProducto(${id})" class="text-red-600 hover:underline">Eliminar</button>
-      `;
-      contenedor.appendChild(item);
-    });
-  }
-
-  function eliminarProducto(id) {
-    const productos = JSON.parse(localStorage.getItem('productos')) || [];
-    const index = productos.indexOf(id);
-    if (index > -1) {
-      productos.splice(index, 1);
-      localStorage.setItem('productos', JSON.stringify(productos));
-      renderCarrito();
+    function vaciarCarrito() {
+      localStorage.removeItem("carrito");
+      mostrarCarrito();
     }
-  }
 
-  const catalogo = [
-    { id: 1, nombre: "Silla Moderna", precio: 45000 },
-    { id: 2, nombre: "Mesa Minimalista", precio: 60000 },
-    { id: 3, nombre: "Escritorio Pro", precio: 80000 },
-    { id: 4, nombre: "Silla Clásica", precio: 30000 },
-    { id: 5, nombre: "Mesa de Comedor", precio: 70000 },
-    { id: 6, nombre: "Escritorio Compacto", precio: 40000 }
-  ];
-
-  renderCarrito();
-</script>
-
+    mostrarCarrito();
+  </script>
 </body>
 </html>

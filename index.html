@@ -1,120 +1,61 @@
-{
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>GN_amoblamientos</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="script.js"></script>
-  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gray-100 text-gray-800">
-
-  <!-- Carrito flotante -->
-  <button id="carrito-boton" class="fixed top-4 right-4 bg-black text-white p-2 rounded-full shadow z-50">
-    🛒 <span id="cart-count">0</span>
-  </button>
-
-  <!-- Encabezado con logo -->
-  <header class="relative h-[400px] md:h-[500px] w-full overflow-hidden mb-10">
-    <img src="logo.jpg" alt="GN_amoblamientos" class="w-full h-full object-cover object-center opacity-70">
-    
+<body class="bg-white text-gray-900">
+  <header class="bg-white shadow p-4 flex justify-between items-center">
+    <img src="logo.png" alt="Logo GN_amoblamientos" class="h-20 object-contain" />
+    <a href="carrito.html" class="relative">
+      🛒 <span id="cart-count" class="bg-black text-white px-2 rounded-full text-sm absolute -top-2 -right-3">0</span>
+    </a>
   </header>
 
-  <!-- Buscador y filtros -->
-  <section class="max-w-6xl mx-auto px-4 mb-8">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-      <input id="search" type="text" placeholder="Buscar productos..." class="p-3 border rounded w-full">
-      <select id="filter-category" class="p-3 border rounded w-full">
-        <option value="">Todas las categorías</option>
-        <option value="Sillas">Sillas</option>
-        <option value="Mesas">Mesas</option>
-        <option value="Sofás">Sofás</option>
-      </select>
-      <select id="filter-price" class="p-3 border rounded w-full">
-        <option value="">Todos los precios</option>
-        <option value="low">Menor a $50.000</option>
-        <option value="high">Mayor a $50.000</option>
-      </select>
-    </div>
-  </section>
+  <main class="p-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  </main>
 
-  <!-- Productos -->
-  <section id="productos" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 max-w-6xl mx-auto mb-16">
-    
-    <div class="bg-white p-4 rounded shadow">
-      <img src="https://via.placeholder.com/300x200?text=Silla+Moderna" class="w-full h-40 object-cover mb-2">
-      <h3 class="font-bold">Silla Moderna</h3>
-      <p>$30.000</p>
-      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Silla Moderna" data-price="30000">Agregar al carrito</button>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <img src="https://via.placeholder.com/300x200?text=Mesa+Ratona" class="w-full h-40 object-cover mb-2">
-      <h3 class="font-bold">Mesa Ratona</h3>
-      <p>$45.000</p>
-      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Mesa Ratona" data-price="45000">Agregar al carrito</button>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <img src="https://via.placeholder.com/300x200?text=Sofá+3+Cuerpos" class="w-full h-40 object-cover mb-2">
-      <h3 class="font-bold">Sofá 3 Cuerpos</h3>
-      <p>$120.000</p>
-      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Sofá 3 Cuerpos" data-price="120000">Agregar al carrito</button>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <img src="https://via.placeholder.com/300x200?text=Estantería+Madera" class="w-full h-40 object-cover mb-2">
-      <h3 class="font-bold">Estantería Madera</h3>
-      <p>$60.000</p>
-      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Estantería Madera" data-price="60000">Agregar al carrito</button>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <img src="https://via.placeholder.com/300x200?text=Comoda+4+Cajones" class="w-full h-40 object-cover mb-2">
-      <h3 class="font-bold">Cómoda 4 Cajones</h3>
-      <p>$55.000</p>
-      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Cómoda 4 Cajones" data-price="55000">Agregar al carrito</button>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <img src="https://via.placeholder.com/300x200?text=Banco+de+Madera" class="w-full h-40 object-cover mb-2">
-      <h3 class="font-bold">Banco de Madera</h3>
-      <p>$25.000</p>
-      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Banco de Madera" data-price="25000">Agregar al carrito</button>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <img src="https://via.placeholder.com/300x200?text=Escritorio+Compacto" class="w-full h-40 object-cover mb-2">
-      <h3 class="font-bold">Escritorio Compacto</h3>
-      <p>$50.000</p>
-      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Escritorio Compacto" data-price="50000">Agregar al carrito</button>
-    </div>
-    <div class="bg-white p-4 rounded shadow">
-      <img src="https://via.placeholder.com/300x200?text=Biblioteca+Alta" class="w-full h-40 object-cover mb-2">
-      <h3 class="font-bold">Biblioteca Alta</h3>
-      <p>$70.000</p>
-      <button class="bg-black text-white px-2 py-1 mt-2 w-full add-to-cart" data-name="Biblioteca Alta" data-price="70000">Agregar al carrito</button>
-    </div>
+  <script>
+    const productos = [
+      { id: 1, nombre: "Silla Moderna", categoria: "Sillas", precio: 45000, imagen: "https://via.placeholder.com/300" },
+      { id: 2, nombre: "Mesa Minimalista", categoria: "Mesas", precio: 60000, imagen: "https://via.placeholder.com/300" },
+      { id: 3, nombre: "Escritorio Pro", categoria: "Escritorios", precio: 80000, imagen: "https://via.placeholder.com/300" },
+      { id: 4, nombre: "Silla Clásica", categoria: "Sillas", precio: 30000, imagen: "https://via.placeholder.com/300" },
+      { id: 5, nombre: "Mesa de Comedor", categoria: "Mesas", precio: 70000, imagen: "https://via.placeholder.com/300" },
+      { id: 6, nombre: "Escritorio Compacto", categoria: "Escritorios", precio: 40000, imagen: "https://via.placeholder.com/300" },
+      { id: 7, nombre: "Sillón Premium", categoria: "Sillones", precio: 95000, imagen: "https://via.placeholder.com/300" },
+      { id: 8, nombre: "Silla Nórdica", categoria: "Sillas", precio: 35000, imagen: "https://via.placeholder.com/300" }
+    ];
 
-  </section>
+    const main = document.querySelector("main");
+    productos.forEach(p => {
+      const card = document.createElement("div");
+      card.className = "bg-gray-100 rounded-lg shadow p-4 flex flex-col items-center text-center";
+      card.innerHTML = `
+        <img src="${p.imagen}" alt="${p.nombre}" class="w-full h-40 object-cover rounded" />
+        <h3 class="text-xl font-semibold mt-2">${p.nombre}</h3>
+        <p class="text-gray-700">$${p.precio.toLocaleString()}</p>
+        <button onclick="agregarAlCarrito(${p.id})" class="mt-2 bg-black text-white px-4 py-1 rounded">Agregar al carrito</button>
+      `;
+      main.appendChild(card);
+    });
 
-  <!-- Sección de contacto moderna -->
-  <footer class="bg-white border-t py-4 px-4 text-center text-sm text-gray-700">
-    <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
-      <div>
-        <h2 class="text-xl font-bold mb-2">Contacto</h2>
-        <p>Email: gustavo_nieto17@hotmail.com</p>
-        <p>Teléfono: +54 9 261 552-4525</p>
-        <p>Instagram: @gn_amoblamientos</p>
-      </div>
-      <div class="text-sm text-gray-500">
-        <p>&copy; 2025 GN_amoblamientos. Todos los derechos reservados.</p>
-      </div>
-    </div>
-  </footer>
+    function agregarAlCarrito(id) {
+      const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+      carrito.push(id);
+      localStorage.setItem("carrito", JSON.stringify(carrito));
+      actualizarContador();
+    }
 
-  <!-- Nube flotante de WhatsApp -->
-  <a href="https://wa.me/5492615524525" target="_blank" class="fixed bottom-6 right-4 bg-green-500 text-white px-4 py-2 rounded-full shadow flex items-center gap-2 z-50 hover:bg-green-600">
-    <span>WhatsApp</span>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="w-5 h-5">
-  </a>
+    function actualizarContador() {
+      const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+      document.getElementById("cart-count").textContent = carrito.length;
+    }
 
+    actualizarContador();
+  </script>
 </body>
 </html>
-}
