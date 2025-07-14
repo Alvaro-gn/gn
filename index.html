@@ -59,3 +59,59 @@
   </script>
 </body>
 </html>
+
+<!-- Carrito -->
+<section class="max-w-xl mx-auto my-10 bg-white p-6 rounded-lg shadow">
+  <h2 class="text-xl font-bold mb-4">Carrito</h2>
+  <div id="items-carrito" class="mb-4"></div>
+  <div class="flex justify-between items-center">
+    <strong>Total:</strong> $<span id="total-carrito">0</span>
+  </div>
+  <button onclick="finalizarCompra()" class="mt-4 bg-black text-white px-4 py-2 rounded hover:bg-gray-800">Finalizar compra</button>
+</section>
+
+<script>
+  let carrito = [];
+
+  function agregarAlCarrito(nombre, precio) {
+    carrito.push({ nombre, precio });
+    actualizarCarrito();
+  }
+
+  function eliminarDelCarrito(index) {
+    carrito.splice(index, 1);
+    actualizarCarrito();
+  }
+
+  function finalizarCompra() {
+    if (carrito.length === 0) {
+      alert("El carrito está vacío.");
+      return;
+    }
+    alert("Gracias por tu compra. Nos pondremos en contacto.");
+    carrito = [];
+    actualizarCarrito();
+  }
+
+  function actualizarCarrito() {
+    const contenedor = document.getElementById("items-carrito");
+    const totalSpan = document.getElementById("total-carrito");
+    contenedor.innerHTML = "";
+    let total = 0;
+    carrito.forEach((item, index) => {
+      total += item.precio;
+      contenedor.innerHTML += `<div class="flex justify-between items-center mb-2">
+        <span>${item.nombre} - $${item.precio}</span>
+        <button onclick="eliminarDelCarrito(${index})" class="text-red-500 hover:underline">Eliminar</button>
+      </div>`;
+    });
+    totalSpan.textContent = total;
+  }
+</script>
+
+  <a href="https://wa.me/5492615524525" target="_blank" class="whatsapp-float">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp" class="h-6 w-6" />
+    WhatsApp
+  </a>
+</body>
+</html>
