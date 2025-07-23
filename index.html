@@ -107,29 +107,40 @@
     const cartCount = document.getElementById("cart-count");
 
     function renderProductos() {
-      contenedor.innerHTML = "";
-      const search = document.getElementById("search").value.toLowerCase();
-      const categoria = document.getElementById("filter-category").value;
-      const precioFiltro = document.getElementById("filter-price").value;
+  contenedor.innerHTML = "";
+  const search = document.getElementById("search").value.toLowerCase();
+  const categoria = document.getElementById("filter-category").value;
+  const precioFiltro = document.getElementById("filter-price").value;
 
-      productos.filter(p => {
-        return (
-          (!search || p.nombre.toLowerCase().includes(search)) &&
-          (!categoria || p.categoria === categoria) &&
-          (!precioFiltro || (precioFiltro === "low" ? p.precio < 50000 : p.precio >= 50000))
-        );
-      }).forEach(p => {
-        const card = document.createElement("div");
-        card.className = "bg-white rounded-lg shadow p-4 flex flex-col items-center";
-        card.innerHTML = `
-          <img src="${p.imagen}" class="w-full h-48 object-cover mb-4 rounded" />
-          <h3 class="text-xl font-semibold mb-2">${p.nombre}</h3>
-          <p class="mb-2 text-gray-600">$${p.precio.toLocaleString()}</p>
-          <button class="bg-black text-white px-4 py-2 rounded hover:bg-gray-800" onclick="agregarAlCarrito(${p.id})">Agregar al carrito</button>
-        `;
-        contenedor.appendChild(card);
-      });
-    }
+  const filtrados = productos.filter(p => {
+    return (
+      (!search || p.nombre.toLowerCase().includes(search)) &&
+      (!categoria || p.categoria === categoria) &&
+      (!precioFiltro || (precioFiltro === "low" ? p.precio < 50000 : p.precio >= 50000))
+    );
+  });
+
+  if (filtrados.length === 0) {
+    contenedor.innerHTML = `<p class="text-center col-span-full text-gray-500">No se encontraron productos.</p>`;
+    return;
+  }
+
+  filtrados.forEach(p => {
+    const card = document.createElement("div");
+    card.className =
+      "group flex flex-col items-center text-center gap-1 p-2 transition-transform duration-200 hover:scale-105";
+
+    card.innerHTML = `
+      <img src="${p.imagen}" class="w-full h-48 object-contain mb-2 transition duration-300" />
+      <h3 class="text-sm font-normal text-gray-800">${p.nombre}</h3>
+      <p class="text-base font-semibold text-black group-hover:text-gray-600 transition duration-200">$${p.precio.toLocaleString()}</p>
+      <button class="text-xs text-white bg-black px-3 py-1 rounded opacity-0 group-hover:opacity-100 transition duration-200 mt-1">Agregar al carrito</button>
+    `;
+
+    contenedor.appendChild(card);
+  });
+}
+
 
     function agregarAlCarrito(id) {
       carrito.push(id);
